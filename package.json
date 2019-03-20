@@ -1,0 +1,36 @@
+{
+  "name": "vet-nellie",
+  "version": "1.0.0",
+  "description": "Veterinary expert system",
+  "main": "server.js",
+  "scripts": {
+    "start": "env $(cat .env) nodemon server.js",
+    "knex": "NODE_ENV=development DEBUG=knex:query nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaimoJohanson/vet-nellie.git"
+  },
+  "author": "Raimo Johanson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RaimoJohanson/vet-nellie/issues"
+  },
+  "homepage": "https://github.com/RaimoJohanson/vet-nellie#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "bookshelf": "^0.14.2",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.0",
+    "knex": "0.13.0",
+    "pg": "^7.8.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.0"
+  }
+}
