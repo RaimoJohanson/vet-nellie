@@ -7,7 +7,7 @@ exports.fetchAll = app => async (req, res) => {
     const formatted = DataFormat.instances(data);
     return res.json(formatted);
   } catch (error) {
-    return res.json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -38,7 +38,8 @@ exports.create = app => async (req, res) => {
 
     return res.json('done?');
   } catch (error) {
-    return res.json({ message: error.message });
+    console.log(error);
+    return res.status(500).json({ message: error.message });
   }
 };
 /*

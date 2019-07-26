@@ -15,8 +15,8 @@ module.exports = (bookshelf, tableName) => bookshelf.Model.extend({
     }).fetchAll();
   },
   async upsert(data, accountId) {
-    const Model = bookshelf.model(tableName);
     const { value } = data;
+    const Model = bookshelf.model(tableName);
     const existing = await new Model({ value }).fetch();
     if (!existing) return new Model({ value }).set({ created_by: accountId }).save();
     return existing.set({ updated_by: accountId }).save();

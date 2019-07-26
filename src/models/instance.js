@@ -10,8 +10,7 @@ module.exports = (bookshelf, tableName) => bookshelf.Model.extend({
 }, {
   async fetchAll() {
     const Model = bookshelf.model(tableName);
-    return new Model().fetchAll({
-      withRelated: ['features', 'decision'],
-    });
+    const relations = ['features', 'decision'];
+    return new Model().fetchAll({ withRelated: relations });
   },
 });

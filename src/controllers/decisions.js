@@ -2,8 +2,8 @@ exports.fetchAll = app => async (req, res) => {
   try {
     const bookshelf = app.get('bookshelf');
     const Model = bookshelf.model('decision');
-    const record = await new Model().fetchAll();
-    return res.json(record);
+    const records = await new Model().fetchAll();
+    return res.json(records);
   } catch (error) {
     return res.json({ message: error.message });
   }

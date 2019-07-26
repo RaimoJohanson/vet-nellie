@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "env $(cat .env) nodemon server.js",
-    "knex": "NODE_ENV=development DEBUG=knex:query nodemon server.js",
+    "knex": "env $(cat .env) DEBUG=knex:query nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

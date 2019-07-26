@@ -2,8 +2,10 @@ exports.fetchAll = app => async (req, res) => {
   try {
     const bookshelf = app.get('bookshelf');
     const Model = bookshelf.model('feature');
-    const record = await new Model().fetchAll();
-    return res.json(record);
+    const withRelated = ['instances'];
+    const records = await new Model().fetchAll({ withRelated });
+    const formatted = records.toJSON().map(item => ({ ...item, instances: item.instances.length }));
+    return res.json(formatted);
   } catch (error) {
     return res.json({ message: error.message });
   }
@@ -47,8 +49,12 @@ exports.update = app => async (req, res) => {
   try {
     const bookshelf = app.get('bookshelf');
     const Model = bookshelf.model('feature');
+    const { value } = req.body;
     const record = await new Model({ id: req.params.id }).fetch();
-    return res.json(record);
+    if (!record) return res.status(404).json('Feature not found');
+
+    const result = await record.save({ value }, { method: 'update' });
+    return res.json(result);
   } catch (error) {
     return res.json({ message: error.message });
   }
