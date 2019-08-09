@@ -2,10 +2,26 @@ exports.fetchAll = app => async (req, res) => {
   try {
     const bookshelf = app.get('bookshelf');
     const Model = bookshelf.model('feature');
+    const records = await new Model().fetchAll();
+    return res.json(records);
+  } catch (error) {
+    return res.json({ message: error.message });
+  }
+};
+
+exports.fetchPage = app => async (req, res) => {
+  try {
+    const bookshelf = app.get('bookshelf');
+    const Model = bookshelf.model('feature');
     const withRelated = ['instances'];
-    const records = await new Model().fetchAll({ withRelated });
-    const formatted = records.toJSON().map(item => ({ ...item, instances: item.instances.length }));
-    return res.json(formatted);
+    const { page = 1, pageSize = 10 } = req.query;
+    const list = await new Model().fetchPage({ pageSize, page, withRelated });
+
+    const formatted = list.toJSON().map(item => ({ ...item, instances: item.instances.length }));
+    return res.json({
+      list: formatted,
+      pagination: list.pagination,
+    });
   } catch (error) {
     return res.json({ message: error.message });
   }

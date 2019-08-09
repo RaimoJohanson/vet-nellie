@@ -6,11 +6,13 @@ const common = require('./controllers/common');
 
 const ROUTE = '/';
 
-module.exports = (app) => {
+const publicRoutes = (app) => {
   router.route('/data')
     .get(/* authorize, */ data.fetchAll(app))
     .post(/* authorize, validate */ data.create(app));
 
+  router.route('/admin/features')
+    .get(/* authorize, */ features.fetchPage(app));
   router.route('/features')
     .get(/* authorize, */ features.fetchAll(app))
     .post(/* authorize, validate */ features.create(app));
@@ -22,6 +24,8 @@ module.exports = (app) => {
     .put(/* authorize, validate */ features.update(app))
     .delete(/* authorize, */ features.delete(app));
 
+  router.route('/admin/decisions')
+    .get(/* authorize, */ decisions.fetchPage(app));
   router.route('/decisions')
     .get(/* authorize, */ decisions.fetchAll(app))
     .post(/* authorize, validate */ decisions.create(app));
@@ -34,7 +38,11 @@ module.exports = (app) => {
     .put(/* authorize, validate, */ decisions.update(app))
     .delete(/* authorize, */ decisions.delete(app));
 
-  app.use(ROUTE, /* authenticate */ router);
+  return router;
+};
+
+module.exports = (app) => {
+  app.use(ROUTE, /* middleware, */ publicRoutes(app));
 
   app.use(common.notfound());
 };

@@ -9,6 +9,21 @@ exports.fetchAll = app => async (req, res) => {
   }
 };
 
+exports.fetchPage = app => async (req, res) => {
+  try {
+    const bookshelf = app.get('bookshelf');
+    const Model = bookshelf.model('decision');
+    const { page = 1, pageSize = 10 } = req.query;
+    const list = await new Model().fetchPage({ pageSize, page });
+    return res.json({
+      list,
+      pagination: list.pagination,
+    });
+  } catch (error) {
+    return res.json({ message: error.message });
+  }
+};
+
 exports.autocomplete = app => async (req, res) => {
   try {
     if (!req.query.phrase) return res.json([]);
